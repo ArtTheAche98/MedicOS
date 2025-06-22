@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Profile - MedicOS{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="medical-card p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Profile Settings</h2>
+        
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personal Information -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium text-gray-900">Personal Information</h3>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" value="{{ user.username }}" disabled
+                               class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" value="{{ user.email }}" disabled
+                               class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" name="phone" id="phone" value="{{ patient.phone }}"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+
+                <!-- Preferences -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium text-gray-900">Preferences</h3>
+                    
+                    <div>
+                        <label for="language" class="block text-sm font-medium text-gray-700">Preferred Language</label>
+                        <select name="language" id="language"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="en" {% if patient.language == 'en' %}selected{% endif %}>English</option>
+                            <option value="es" {% if patient.language == 'es' %}selected{% endif %}>Spanish</option>
+                            <option value="fr" {% if patient.language == 'fr' %}selected{% endif %}>French</option>
+                            <option value="de" {% if patient.language == 'de' %}selected{% endif %}>German</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="telegram_chat_id" class="block text-sm font-medium text-gray-700">Telegram Chat ID</label>
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                            <input type="text" name="telegram_chat_id" id="telegram_chat_id"
+                                   value="{{ patient.telegram_chat_id }}"
+                                   class="flex-1 block w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <button type="button" onclick="window.open('https://t.me/MedicosiBot')" 
+                                    class="btn-secondary text-white px-4 py-2 rounded-r-md">
+                                Connect Bot
+                            </button>
+                        </div>
+                        <p class="mt-1 text-sm text-gray-500">Connect with our Telegram bot to receive medication reminders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Security</h3>
+                <div class="mt-4">
+                    <a href="{% url 'password_change' %}" 
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        Change Password
+                    </a>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-6 border-t border-gray-200">
+                <div class="flex justify-end">
+                    <button type="submit" class="btn-primary text-white px-4 py-2 rounded-md">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Connected Services -->
+    <div class="medical-card p-8 mt-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Connected Services</h3>
+        <div class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/google_48dp.png" alt="Google" class="h-8 w-8">
+                    <span class="ml-3 text-gray-700">Google</span>
+                </div>
+                {% if google_connected %}
+                    <button class="text-red-600 hover:text-red-800">Disconnect</button>
+                {% else %}
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" class="text-blue-600 hover:text-blue-800">Connect</a>
+                {% endif %}
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="h-8 w-8">
+                    <span class="ml-3 text-gray-700">GitHub</span>
+                </div>
+                {% if github_connected %}
+                    <button class="text-red-600 hover:text-red-800">Disconnect</button>
+                {% else %}
+                    <a href="{% url 'social:begin' 'github' %}" class="text-blue-600 hover:text-blue-800">Connect</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

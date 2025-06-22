@@ -2,7 +2,7 @@
 
 **MedicOS** is a Django-based web application designed to **enhance medication safety** for patients and healthcare providers. It helps prevent harmful drug interactions, suggests safer alternatives using AI, and improves medication adherence with reminders and voice instructions.
 
-[![Demo Video]([https://img.shields.io/badge/Demo-Coming_Soon-blue](https://youtu.be/rTztGg673XE))](#)
+[![Demo Video](https://img.shields.io/badge/Demo-Coming_Soon-blue)](https://youtu.be/rTztGg673XE)
 
 ---
 
@@ -31,14 +31,14 @@
 ## ⚙️ Tech Stack
 
 | Layer               | Tech                              |
-|--------------------|------------------------------------|
-| Backend            | Django, Python                     |
-| Task Queue         | Celery + Redis                     |
-| APIs               | OpenFDA / MediShield, DeepSeek     |
-| Messaging          | Twilio, SMTP (or alternatives)     |
-| Voice              | Amazon Polly                       |
-| Frontend (Mobile)  | PWA / FlutterFlow                  |
-| Hosting            | Docker + Azure App Service         |
+|---------------------|-----------------------------------|
+| Backend             | Django, Python                    |
+| Task Queue          | Celery + Redis                    |
+| APIs                | OpenFDA / MediShield, DeepSeek    |
+| Messaging           | Twilio, SMTP (or alternatives)    |
+| Voice               | Amazon Polly                      |
+| Frontend (Mobile)   | PWA / FlutterFlow                 |
+| Hosting             | Docker + Azure App Service        |
 
 ---
 
@@ -48,95 +48,99 @@
    ```bash
    git clone https://github.com/yourusername/medicos.git
    cd medicos
+   ```
 
-	2.	Create Virtual Environment
+2. **Create Virtual Environment**
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-python3 -m venv .venv
-source .venv/bin/activate
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
+4. **Configure Environment Variables**
+   Create a `.env` file and add:
+   ```env
+   OPENFDA_API_KEY=your_openfda_key
+   DEEPSEEK_API_KEY=your_deepseek_key
+   TWILIO_ACCOUNT_SID=your_twilio_sid
+   TWILIO_AUTH_TOKEN=your_twilio_token
+   TWILIO_PHONE=your_twilio_number
+   PATIENT_PHONE=recipient_number
+   AWS_POLLY_KEY=your_aws_key
+   AWS_POLLY_SECRET=your_aws_secret
+   ```
 
-	3.	Install Dependencies
+5. **Apply Migrations & Collect Static Files**
+   ```bash
+   python manage.py migrate
+   python manage.py collectstatic
+   ```
 
-pip install -r requirements.txt
+6. **Run Redis**
+   ```bash
+   redis-server
+   ```
 
+7. **Start Celery Workers**
+   ```bash
+   celery -A medicos worker --loglevel=info
+   celery -A medicos beat --loglevel=info
+   ```
 
-	4.	Configure Environment Variables
-Create a .env file and add:
+8. **Run the Development Server**
+   ```bash
+   python manage.py runserver
+   ```
 
-OPENFDA_API_KEY=your_openfda_key
-DEEPSEEK_API_KEY=your_deepseek_key
-TWILIO_ACCOUNT_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_token
-TWILIO_PHONE=your_twilio_number
-PATIENT_PHONE=recipient_number
-AWS_POLLY_KEY=your_aws_key
-AWS_POLLY_SECRET=your_aws_secret
+---
 
+## 🔐 Environment Variables Reference
 
-	5.	Apply Migrations & Collect Static Files
+| Variable           | Purpose                      |
+|--------------------|------------------------------|
+| OPENFDA_API_KEY    | Drug interaction API key     |
+| DEEPSEEK_API_KEY   | AI suggestion API key        |
+| TWILIO_ACCOUNT_SID | Twilio Account SID           |
+| TWILIO_AUTH_TOKEN  | Twilio Auth Token            |
+| TWILIO_PHONE       | Twilio phone number          |
+| PATIENT_PHONE      | Patient's phone number       |
+| AWS_POLLY_KEY      | Amazon Polly Key             |
+| AWS_POLLY_SECRET   | Amazon Polly Secret          |
 
-python manage.py migrate
-python manage.py collectstatic
+---
 
+## 🧑‍⚕️ Use Cases
+- **Clinicians** – Get real-time interaction alerts during prescription.
+- **Patients** – Receive reminders and spoken instructions for better compliance.
+- **Pharmacists** – Offer AI-suggested alternatives tailored to patients.
 
-	6.	Run Redis
+---
 
-redis-server
+## 🚧 Roadmap
+- Interaction checker with OpenFDA
+- AI-powered suggestions
+- SMS reminders
+- Voice instructions
+- User authentication for patients
+- Multi-patient dashboard for clinicians
+- Full mobile version with Flutter
 
+---
 
-	7.	Start Celery Workers
+## 🤝 Contributing
 
-celery -A medicos worker --loglevel=info
-celery -A medicos beat --loglevel=info
+Contributions and feedback are welcome! Whether you're a developer, healthcare professional, or designer — join the mission to improve medication safety.
 
+1. Fork this repo
+2. Create a new branch
+3. Submit a PR
 
-	8.	Run the Development Server
+---
 
-python manage.py runserver
-
-
-
-⸻
-
-🔐 Environment Variables Reference
-
-Variable	Purpose
-OPENFDA_API_KEY	Drug interaction API key
-DEEPSEEK_API_KEY	AI suggestion API key
-PATIENT_PHONE	Patient’s phone number
-AWS_POLLY_KEY	Amazon Polly Key
-AWS_POLLY_SECRET	Amazon Polly Secret
-
-
-⸻
-
-🧑‍⚕️ Use Cases
-	•	Clinicians – Get real-time interaction alerts during prescription.
-	•	Patients – Receive reminders and spoken instructions for better compliance.
-	•	Pharmacists – Offer AI-suggested alternatives tailored to patients.
-
-⸻
-
-🚧 Roadmap
-	•	Interaction checker with OpenFDA
-	•	AI-powered suggestions
-	•	SMS reminders
-	•	Voice instructions
-	•	User authentication for patients
-	•	Multi-patient dashboard for clinicians
-	•	Full mobile version with Flutter
-
-⸻
-
-🤝 Contributing
-
-Contributions and feedback are welcome! Whether you’re a developer, healthcare professional, or designer — join the mission to improve medication safety.
-	1.	Fork this repo
-	2.	Create a new branch
-	3.	Submit a PR
-
-⸻
-
-📝 License
+## 📝 License
 
 This project is licensed under the MIT License.

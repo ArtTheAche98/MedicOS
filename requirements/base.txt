@@ -1,0 +1,11 @@
+Django>=4.2,<5.0
+python-dotenv>=1.0.0
+social-auth-app-django>=5.4.0
+django-redis>=5.4.0
+django-cryptography>=1.1
+requests>=2.31.0
+python-telegram-bot[job-queue]>=20.7  # Added job-queue extra
+aiohttp>=3.9.1
+django-debug-toolbar>=4.2.0
+gTTS>=2.4.0
+redis>=5.0.1
